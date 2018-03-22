@@ -62,6 +62,9 @@ Thanks to the new version, and now we use the plug-in iOS only need a few simple
 
 
 The preparatory work has been completed，Now,you can use this code everywhere in your project
+```bash
+for example
+```
 
 ```js
     var success = function(data){
@@ -125,7 +128,7 @@ window.FoxitPdf.addEventListener('onDocSaved',function(data){
 
 
 ## Usage Instructions for Android
-Android do not have to make any changes, you can directly use
+Android do not have to make any changes, you can use the function like this sample code
 
 ```js
 var success = function(data){
@@ -134,7 +137,7 @@ var success = function(data){
 var error = function(data){
     console.log(data);
 }
-var filePath = 'file://path/to/your/file';
+
 // var filePath = "/mnt/sdcard/getting_started_ios.pdf";
 window.FoxitPdf.preview(filePath,success,error);
 ```
