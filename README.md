@@ -25,6 +25,10 @@
 cordova plugin add cordova-plugin-foxitpdf
 ```
 
+It is also possible to install via repo url directly ( unstable )
+
+    cordova plugin add https://github.com/apache/cordova-plugin-camera.git
+    
 Because of some large file in our project ,if you update faild please try the other way
 1. clone this project
 2. add plugin from local by this command :
