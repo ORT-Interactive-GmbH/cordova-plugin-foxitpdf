@@ -62,12 +62,6 @@
     return self;
 }
 
-- (void)dealloc {
-    self.pdfView = nil;
-    self.cropView = nil;
-    self.cropViewClosedHandler = nil;
-}
-
 - (void)setExtension:(UIExtensionsManager *)extensionsManager {
     _extensionsManager = extensionsManager;
     _pdfViewCtrl = extensionsManager.pdfViewCtrl;

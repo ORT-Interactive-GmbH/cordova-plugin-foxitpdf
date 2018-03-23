@@ -119,7 +119,6 @@
 @property (nonatomic, strong) NSMutableArray *modules;
 
 @property (nonatomic, strong) FSThumbnailViewController *thumbnailViewController;
-//@property (nonatomic) PDF_LAYOUT_MODE prevLayoutMode; // for returning from thumbnail
 @property (nonatomic, strong) FSThumbnailCache *thumbnailCache;
 
 @property (nonatomic, strong) NSMutableArray *fullScreenListeners;
@@ -1696,12 +1695,17 @@
 #define e_annotInsert 101
 #define e_annotTextbox 103
 #define e_annotCloud 105
+#define e_annotDistance 106;
 
 - (int)filterAnnotType:(FSAnnotType)annotType {
     if (e_annotLine == annotType) {
         LineToolHandler *toolHandler = [self getToolHandlerByName:Tool_Line];
         if (toolHandler.isArrowLine)
             return e_annotArrowLine;
+
+        if (toolHandler.isDistanceTool) {
+            return e_annotDistance;
+        }
     } else if (e_annotCaret == annotType) {
         NSString *toolHandlerName = [self.currentToolHandler getName];
         if ([toolHandlerName isEqualToString:Tool_Insert]) {
@@ -2409,8 +2413,23 @@
 }
 
 - (void)saveAndCloseCurrentDoc:(void (^_Nullable)(BOOL success))completion {
-    NSString *intermediateFilePath = nil;
     NSString *filePath = self.pdfViewCtrl.filePath;
+    
+    if (self.preventOverrideFilePath && self.preventOverrideFilePath.length > 0 && ![filePath isEqualToString:self.preventOverrideFilePath]) {
+        BOOL isOK = YES;
+        isOK = [self.pdfViewCtrl saveDoc:self.preventOverrideFilePath flag:self.docSaveFlag];
+        
+        [self.pdfViewCtrl closeDoc:^() {
+            if (completion) {
+                completion(isOK);
+            }
+        }];
+        
+        return;
+    }
+    
+    NSString *intermediateFilePath = nil;
+    
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isAsync = ![fileManager fileExistsAtPath:filePath];
     if (filePath) {

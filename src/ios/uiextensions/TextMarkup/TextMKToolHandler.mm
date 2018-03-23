@@ -275,7 +275,7 @@ END:
         FSRectF *rect = [_pdfViewCtrl convertPageViewRectToPdfRect:self.currentEditRect pageIndex:self.pageindex];
         FSPDFPage *page = [_pdfViewCtrl.currentDoc getPage:self.pageindex];
         if (!page)
-            return;
+            return NO;
         FSMarkup *annot = (FSMarkup *) [page addAnnot:self.type rect:rect];
         annot.NM = [Utility getUUID];
         annot.author = [SettingPreference getAnnotationAuthor];

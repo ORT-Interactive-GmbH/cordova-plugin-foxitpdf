@@ -172,24 +172,28 @@
     if (_extensionsManager.currentToolHandler != self) {
         return NO;
     }
+    return YES;
 }
 
 - (BOOL)onPageViewTouchesMoved:(int)pageIndex touches:(NSSet *)touches withEvent:(UIEvent *)event {
     if (_extensionsManager.currentToolHandler != self) {
         return NO;
     }
+    return YES;
 }
 
 - (BOOL)onPageViewTouchesEnded:(int)pageIndex touches:(NSSet *)touches withEvent:(UIEvent *)event {
     if (_extensionsManager.currentToolHandler != self) {
         return NO;
     }
+    return YES;
 }
 
 - (BOOL)onPageViewTouchesCancelled:(int)pageIndex touches:(NSSet *)touches withEvent:(UIEvent *)event {
     if (_extensionsManager.currentToolHandler != self) {
         return NO;
     }
+    return YES;
 }
 
 - (FSPolygon *)addAnnotToPage:(int)pageIndex {

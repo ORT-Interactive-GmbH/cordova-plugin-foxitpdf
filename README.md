@@ -28,7 +28,7 @@ cordova plugin add cordova-plugin-foxitpdf
 It is also possible to install via repo url directly ( unstable )
 
     cordova plugin add https://github.com/apache/cordova-plugin-camera.git
-    
+
 Because of some large file in our project ,if you update faild please try the other way
 1. clone this project
 2. add plugin from local by this command :
@@ -38,7 +38,7 @@ cordova plugin add ~/abc/cordova-plugin-foxitpdf (This address is replaced by yo
     we just provide Trial key for 10 days ，if you try this plugin and then faild maybe the key is invalid .so please note the key expiration tiem.
     if you want longer time key , please contact us.
 
-    now the key expiration day is ## 3-11 ,please note.
+    now the key expiration day is ## 4-21 ,please note.
 
 ## Major update
     Now our plugin is also using Foxit RDK 5.1
@@ -71,16 +71,17 @@ for example
 ```
 
 ```js
-    var success = function(data){
+    var successcallback = function(data){
         console.log(data);
     }
-    var error = function(data){
+    var errorcallback = function(data){
         console.log(data);
     }
-
-    var filePath = 'file://path/to/your/file';
-    //var filePath = cordova.file.applicationDirectory + 'getting_started_ios.pdf';
-    window.FoxitPdf.preview(filePath,success,error);
+    let pdfviewOptions = {
+      'filePath':cordova.file.applicationDirectory + 'getting_started_ios.pdf',
+      'filePathSaveTo': cordova.file.documentsDirectory + 'getting_started_ios_2.pdf',
+    };
+    window.FoxitPdf.preview(pdfviewOptions,successcallback,errorcallback);
 ```
 
 <s>1. In your Xcode project, find the FoxitSource folder and  "UI Extension" folder(in blue), right click and delete it, confirm "Remove Reference" when prompted. Create the FoxitSource group (in yellow) (because Cordova plug-in can not create iOS group).</s>
@@ -108,6 +109,36 @@ for example
 	Portrait , Landscape Left , Landscape Right
 </s>
 
+
+## window.FoxitPdf.preview
+
+> Adds a listener for an event
+
+    window.FoxitPdf.addEventListener(option,successcallback,errorcallback);
+
+- __option__: preview configuration options. we now support two option
+
+  - __filePath__: document path of what u want open
+  - __filePathSaveTo__: document path that prevent overwrite of the preview file  _(if u set)_
+
+- __successcallback__: the function that executes when the preview success. The function is passed an object as a parameter.
+
+- __callback__: the function that executes when the preview faild. The function is passed an object as a parameter.
+
+
+## Example (In iOS)
+
+```javascript
+
+let pdfviewOptions = {
+  'filePath':cordova.file.applicationDirectory + 'getting_started_ios.pdf',
+  'filePathSaveTo': cordova.file.documentsDirectory + 'getting_started_ios_2.pdf',
+};
+window.FoxitPdf.preview(pdfviewOptions,function(succ){console.log('succ',succ);},function(err){console.log('err',err);});
+
+```
+
+
 ## window.FoxitPdf.addEventListener
 
 > Adds a listener for an event
@@ -118,7 +149,7 @@ for example
 
   - __onDocSaved__: event fires when document saved.
 
-- __callback__: the function that executes when the event fires. The function is passed an `InAppBrowserEvent` object as a parameter.
+- __callback__: the function that executes when the event fires. The function is passed an object as a parameter.
 
 ## Example
 
@@ -135,15 +166,18 @@ window.FoxitPdf.addEventListener('onDocSaved',function(data){
 Android do not have to make any changes, you can use the function like this sample code
 
 ```js
-var success = function(data){
-    console.log(data);
+var successcallback = function(data){
+  console.log(data);
 }
-var error = function(data){
-    console.log(data);
+var errorcallback = function(data){
+  console.log(data);
 }
-
 // var filePath = "/mnt/sdcard/getting_started_ios.pdf";
-window.FoxitPdf.preview(filePath,success,error);
+let pdfviewOptions = {
+  'filePath':'/mnt/sdcard/getting_started_ios.pdf',
+  'filePathSaveTo': '/mnt/sdcard/getting_started_ios2.pdf',
+};
+window.FoxitPdf.preview(pdfviewOptions,successcallback,errorcallback);
 ```
 
 ## PPT
@@ -202,17 +236,14 @@ If something like the error in the following picture appears, try the method in 
 
 The PDF file needs to be placed in the project beforehand. The location is in the project root by default
 
-```js
-var success = function(data){
-    console.log(data);
-}
-var error = function(data){
-    console.log(data);
-}
-function preview(){
-    var filePath = cordova.file.applicationDirectory + 'getting_started_ios.pdf';
-    window.FoxitPdf.preview(filePath,success,error);
-}
+```javascript
+
+let pdfviewOptions = {
+  'filePath':cordova.file.applicationDirectory + 'getting_started_ios.pdf',
+  'filePathSaveTo': cordova.file.documentsDirectory + 'getting_started_ios_2.pdf',
+};
+window.FoxitPdf.preview(pdfviewOptions,function(succ){console.log('succ',succ);},function(err){console.log('err',err);});
+
 ```
 
 

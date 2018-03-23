@@ -140,7 +140,7 @@
     CGRect rect = CGRectMake(point.x - width / 2.0, point.y - height / 2.0, width, height);
     FSPDFPage *page = [_pdfViewCtrl.currentDoc getPage:pageIndex];
     if (!page)
-        return;
+        return NO;
     float pageWidth = [_pdfViewCtrl getPageViewWidth:pageIndex];
     float pageHeight = [_pdfViewCtrl getPageViewHeight:pageIndex];
 

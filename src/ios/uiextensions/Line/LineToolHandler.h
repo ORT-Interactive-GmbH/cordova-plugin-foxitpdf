@@ -18,6 +18,7 @@
 
 @property (nonatomic, assign) FSAnnotType type;
 @property (nonatomic, assign) BOOL isArrowLine;
+@property (nonatomic, assign) BOOL isDistanceTool;
 
 - (instancetype)initWithUIExtensionsManager:(UIExtensionsManager *)extensionsManager;
 

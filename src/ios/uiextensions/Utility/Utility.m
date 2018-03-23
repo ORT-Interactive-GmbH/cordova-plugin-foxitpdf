@@ -1452,6 +1452,7 @@ static NSDictionary<NSString *, NSNumber *> *g_stampIconNameToType = nil;
         int permisson = [[[transformParams getElement:@"P"] getDirectObject] getInteger];
         return permisson;
     }
+    return 0;
 }
 
 + (void)assignImage:(UIImageView *)imageView rawFrame:(CGRect)frame image:(UIImage *)image {

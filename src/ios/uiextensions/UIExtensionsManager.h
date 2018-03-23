@@ -242,7 +242,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isFullScreen;
 /** @brief Whether screen rotation is locked or not. */
 @property (nonatomic, assign) BOOL isScreenLocked;
-
+/** @brief prevent to override original pdf file. */
+@property (nonatomic, strong) NSString *preventOverrideFilePath;
 /**
  * @brief Intialize extensions manager.
  *

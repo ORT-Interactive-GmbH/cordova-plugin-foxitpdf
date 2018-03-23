@@ -124,6 +124,7 @@
     LineToolHandler *toolHandler = [_extensionsManager getToolHandlerByName:Tool_Line];
     FSLine *annot1 = (FSLine *) annot;
     toolHandler.isArrowLine = [[annot1 getIntent] isEqualToString:@"LineArrow"];
+    toolHandler.isDistanceTool = NO;
 
     MenuItem *commentItem = [[MenuItem alloc] initWithTitle:FSLocalizedString(@"kOpen") object:self action:@selector(comment)];
     MenuItem *openItem = [[MenuItem alloc] initWithTitle:FSLocalizedString(@"kOpen") object:self action:@selector(comment)];
@@ -166,6 +167,9 @@
     if ([[annot1 getIntent] isEqualToString:@"LineDimension"]){
         [_pdfViewCtrl refresh:annot.pageIndex];
         _measureRatioInfo = [Utility getDistanceUnitInfo:[annot1 getMeasureRatio]];
+        
+        toolHandler.isDistanceTool = YES;
+        toolHandler.isArrowLine = NO;
     }
 }
 
@@ -587,6 +591,7 @@
     if ([[annot1 getIntent] isEqualToString:@"LineDimension"]){
         [self updateDistanceDataFromStartPoint:[annot1 getStartPoint] toEndPoint:[annot1 getEndPoint]];
     }
+    return YES;
 }
 
 - (BOOL)onPageViewShouldBegin:(int)pageIndex recognizer:(UIGestureRecognizer *)gestureRecognizer annot:(FSAnnot *)annot {

@@ -438,6 +438,7 @@
         [_extensionsManager.menuControl setRect:showRect];
         [_extensionsManager.menuControl showMenu];
     }
+    return YES;
 }
 
 - (BOOL)onPageViewShouldBegin:(int)pageIndex recognizer:(UIGestureRecognizer *)gestureRecognizer annot:(FSAnnot *)annot {

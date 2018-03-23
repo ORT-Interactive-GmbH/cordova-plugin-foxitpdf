@@ -141,6 +141,7 @@
     if (_extensionsManager.currentAnnot) {
         [_extensionsManager setCurrentAnnot:nil];
     }
+    return YES;
 }
 
 - (void)onAnnotDeselected:(FSAnnot *)annot {
@@ -385,6 +386,7 @@
             [_extensionsManager.menuControl showMenu];
         }
     }
+    return YES;
 }
 
 - (BOOL)onPageViewShouldBegin:(int)pageIndex recognizer:(UIGestureRecognizer *)gestureRecognizer annot:(FSAnnot *)annot {

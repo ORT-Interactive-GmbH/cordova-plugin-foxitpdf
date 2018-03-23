@@ -76,6 +76,7 @@
     LineToolHandler *toolHandler = [_extensionsManager getToolHandlerByName:Tool_Line];
     toolHandler.type = _annotType;
     toolHandler.isArrowLine = _isArrLine;
+    toolHandler.isDistanceTool = NO;
     [_extensionsManager setCurrentToolHandler:toolHandler];
     [_extensionsManager.toolSetBar removeAllItems];
 

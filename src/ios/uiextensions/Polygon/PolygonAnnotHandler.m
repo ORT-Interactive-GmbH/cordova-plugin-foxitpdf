@@ -453,6 +453,7 @@ typedef NS_ENUM(NSUInteger, EditType) {
             [_extensionsManager.menuControl showMenu];
         }
     }
+    return YES;
 }
 
 - (BOOL)onPageViewShouldBegin:(int)pageIndex recognizer:(UIGestureRecognizer *)gestureRecognizer annot:(FSAnnot *)annot {

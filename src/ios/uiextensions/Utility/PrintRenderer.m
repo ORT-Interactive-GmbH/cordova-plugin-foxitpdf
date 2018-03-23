@@ -42,8 +42,7 @@
     }
 
     CGContextRef context = UIGraphicsGetCurrentContext();
-    [Utility printPage:page inContext:context inRect:CGRectMake(printableRect.origin.x, printableRect.origin.y, width, height) shouldDrawAnnotation:YES];
-
+    [Utility printPage:page inContext:context inRect:CGRectMake(0, 0, width, height) shouldDrawAnnotation:YES];
 }
 
 @end

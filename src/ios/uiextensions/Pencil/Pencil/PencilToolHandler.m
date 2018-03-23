@@ -84,7 +84,7 @@
 - (FSInk *)createInkAnnotationInPage:(int)pageIndex atPos:(FSPointF *)pos {
     FSPDFPage *page = [_pdfViewCtrl.currentDoc getPage:pageIndex];
     if (!page)
-        return;
+        return nil;
 
     CGRect rect = CGRectMake(pos.x - 20, pos.y - 20, 40, 40);
     FSInk *annot = (FSInk *) [page addAnnot:e_annotInk rect:[Utility CGRect2FSRectF:rect]];

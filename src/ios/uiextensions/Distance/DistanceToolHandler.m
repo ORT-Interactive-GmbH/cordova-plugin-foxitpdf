@@ -14,6 +14,7 @@
 #import "FSAnnotExtent.h"
 #import "UIExtensionsManager+Private.h"
 #import "Utility.h"
+
 #define DEFAULT_RECT_WIDTH 200
 
 @interface DistanceToolHandler ()

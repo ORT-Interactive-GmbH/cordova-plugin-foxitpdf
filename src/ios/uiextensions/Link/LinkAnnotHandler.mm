@@ -243,14 +243,23 @@
 - (void)jumpToPageWithDict:(NSDictionary*)dict {
     int jumpIndex = [[dict objectForKey:LINK_DES_INDEX] intValue];
     if (jumpIndex >= 0 && jumpIndex < [_extensionsManager.pdfViewCtrl.currentDoc getPageCount]) {
-        FSRectF *desDibRect = [Utility CGRect2FSRectF:[[dict objectForKey:LINK_DES_RECT] CGRectValue]];
         //prevent sometimes it's faster than return YES
         double delayInSeconds = 0.1;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
             FSPointF *point = [[FSPointF alloc] init];
-            point.x = -1;
-            point.y = desDibRect.top;
+            point.x = 0;
+            if (dict[LINK_DES_RECT]) {
+                FSRectF *desDibRect = [Utility CGRect2FSRectF:[dict[LINK_DES_RECT] CGRectValue]];
+                point.y = desDibRect.top;
+            } else {
+                FSPDFPage *page = nil;
+                @try {
+                    page = [_extensionsManager.pdfViewCtrl.currentDoc getPage:jumpIndex];
+                } @catch (NSException *exception) {
+                }
+                point.y = page ? [page getHeight] : 0;
+            }
             [_pdfViewCtrl gotoPage:jumpIndex withDocPoint:point animated:YES];
         });
     }

@@ -188,7 +188,7 @@
     if (UIDeviceOrientationIsLandscape(currentOri)) {
         [self.tableView reloadData];
         self.isShowMore = FALSE;
-    } else if (UIInterfaceOrientationIsPortrait(currentOri) && currentOri != UIDeviceOrientationPortraitUpsideDown) {
+    } else if (UIDeviceOrientationIsPortrait(currentOri) && currentOri != UIDeviceOrientationPortraitUpsideDown) {
         [self.tableView reloadData];
         self.isShowMore = FALSE;
     }
@@ -320,7 +320,8 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (self.allpageannos.count == 0 || !self.allpageannos) {
+    if (self.allpageannos.count <= section || !self.allpageannos ||
+        [[self.allpageannos objectAtIndex:section] count] == 0) {
         UIView *view = [[UIView alloc] init];
         return view;
     }

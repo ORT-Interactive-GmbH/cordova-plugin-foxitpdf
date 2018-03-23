@@ -840,6 +840,7 @@
         showRect = CGRectInset(showRect, -80, -80);
         [_pdfViewCtrl refresh:showRect pageIndex:self.signature.pageIndex needRender:NO];
     }
+    return YES;
 }
 
 - (BOOL)onPageViewShouldBegin:(int)pageIndex recognizer:(UIGestureRecognizer *)gestureRecognizer {

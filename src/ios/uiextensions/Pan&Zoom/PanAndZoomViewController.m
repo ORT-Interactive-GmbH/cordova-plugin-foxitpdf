@@ -50,6 +50,7 @@
 
 - (CGRect)receiveImageViewRect:(CGRect)rect {
     _imageViewFrame = rect;
+    return rect;
 }
 
 - (void)handlePan:(UIPanGestureRecognizer*)recognizer

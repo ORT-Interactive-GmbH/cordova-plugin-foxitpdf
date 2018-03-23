@@ -200,6 +200,7 @@
     if (_extensionsManager.currentAnnot) {
         [_extensionsManager setCurrentAnnot:nil];
     }
+    return YES;
 }
 
 - (void)onAnnotDeselected:(FSAnnot *)annot {
@@ -416,6 +417,7 @@
         }
         _lastPanRect = newRect;
     }
+    return YES;
 }
 
 - (BOOL)onPageViewShouldBegin:(int)pageIndex recognizer:(UIGestureRecognizer *)gestureRecognizer annot:(FSAnnot *)annot {

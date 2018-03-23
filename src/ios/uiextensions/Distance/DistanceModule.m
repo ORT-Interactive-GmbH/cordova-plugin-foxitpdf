@@ -17,6 +17,7 @@
 #import "LineAnnotHandler.h"
 #import "DistanceToolHandler.h"
 #import "Utility.h"
+#import "LineToolHandler.h"
 
 @interface DistanceModule ()
 
@@ -61,6 +62,10 @@
 
 - (void)loadModule {
     _extensionsManager.moreToolsBar.distanceClicked = ^() {
+        LineToolHandler *toolHandler = [_extensionsManager getToolHandlerByName:Tool_Line];
+        toolHandler.isDistanceTool = YES;
+        toolHandler.isArrowLine = NO;
+        
         _annotType = e_annotLine;
         [self annotItemClicked];
     };
@@ -70,7 +75,6 @@
     [_extensionsManager changeState:STATE_ANNOTTOOL];
     DistanceToolHandler *toolHandler = (DistanceToolHandler*)[_extensionsManager getToolHandlerByName:Tool_Distance];
     toolHandler.type = _annotType;
-    toolHandler.isArrowLine = _isArrLine;
     [_extensionsManager setCurrentToolHandler:toolHandler];
     [_extensionsManager.toolSetBar removeAllItems];
 

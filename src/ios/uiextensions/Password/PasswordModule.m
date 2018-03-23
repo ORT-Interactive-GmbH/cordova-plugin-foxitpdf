@@ -15,6 +15,7 @@
 #import "EncryptOptionViewController.h"
 #import "MenuGroup.h"
 #import "MvMenuItem.h"
+#import "SettingBar+private.h"
 
 @interface PasswordSecurityInfo : NSObject
 @property (nonatomic, copy) NSString *openPassword;
@@ -207,6 +208,10 @@ typedef void (^PasswordCallBack)(BOOL isInputed, NSString *password);
     return NO;
 }
 
+-(void)exitCropMode{
+    [_pdfViewCtrl setCropMode:PDF_CROP_MODE_NONE];
+}
+
 - (BOOL)encryptDocument:(FSPDFDoc *)doc {
     NSString *originalPDFPath = _pdfViewCtrl.filePath;
     NSString *encryptedPDFPath = nil;
@@ -238,6 +243,7 @@ typedef void (^PasswordCallBack)(BOOL isInputed, NSString *password);
             isOK = [fileManager moveItemAtPath:encryptedPDFPath toPath:originalPDFPath error:nil];
         }
         if (isOK) {
+            [self exitCropMode];
             NSString *password = self.securityInfo.ownerPassword ?: self.securityInfo.openPassword;
             [_pdfViewCtrl openDoc:originalPDFPath password:password completion:nil];
         }
@@ -268,6 +274,7 @@ typedef void (^PasswordCallBack)(BOOL isInputed, NSString *password);
             }
         }
         if (isOK) {
+            [self exitCropMode];
             [_pdfViewCtrl openDoc:_pdfViewCtrl.filePath password:nil completion:nil];
         }
     }

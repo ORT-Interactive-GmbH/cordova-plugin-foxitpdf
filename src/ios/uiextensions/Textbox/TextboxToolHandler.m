@@ -197,8 +197,6 @@
     }
     UIView *pageView = [_pdfViewCtrl getPageView:pageIndex];
     CGPoint point = [recognizer locationInView:pageView];
-    //    FSPointF *dibPoint = [_pdfViewCtrl convertPageViewPtToPdfPt:point pageIndex:pageIndex];
-    //    FS_POINTF dibPoint = [_pdfViewCtrl convertPageViewPtToPdfPt:point];
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         [self save];
         self.pageIndex = pageIndex;
@@ -215,8 +213,6 @@
         rect = CGRectIntersection(rect, pageView.bounds);
         [_pdfViewCtrl refresh:CGRectUnion(rect, self.rect) pageIndex:pageIndex needRender:NO];
         self.rect = rect;
-        //        [pageView invalidate:rect];
-        //        [pageView invalidateForModify:CGRectZero];
 
     } else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
         if (pageIndex != self.pageIndex) {
@@ -224,16 +220,6 @@
             pageView = [_pdfViewCtrl getPageView:pageIndex];
             point = [recognizer locationInView:pageView];
         }
-        //save current annotation and transfor to none
-
-        //        if (pageIndex != self.pageIndex ) {
-        //            id<IDvPageView> realPageView = [[APPDELEGATE.app.read getDocViewer] getPageView:self.pageIndex];
-        //            pageView = realPageView;
-        //        }
-
-        //        FSPDFTextSelect *textPage = [Utility getTextSelect:_pdfViewCtrl.currentDoc pageIndex:pageIndex];
-
-        //        NSArray *array = [self _getTextRects:textPage start:self.startPosIndex end:self.endPosIndex];
         NSMutableArray *arrayQuads = [NSMutableArray array];
         for (int i = 0; i < 1; i++) {
             CGPoint point1;
@@ -256,10 +242,6 @@
             NSArray *arrayQuad = [NSArray arrayWithObjects:value1, value2, value3, value4, nil];
             [arrayQuads addObject:arrayQuad];
         }
-        //        FSCRT_RECTF rect = [_pdfViewCtrl convertPageViewRectToPdfRect:self.currentEditRect];
-        //        rect = [_pdfViewCtrl convertPageViewRectToPdfRect:self.rect];
-        //        FSRectF *rect = [_pdfViewCtrl convertPageViewRectToPdfRect:self.rect pageIndex:pageIndex]; // or self.self.currentEditRect ?
-
         if (!self.pageIsAlreadyExist) {
             self.pageIndex = pageIndex;
             self.pageIsAlreadyExist = YES;
@@ -273,8 +255,6 @@
         if (_extensionsManager.currentToolHandler == self) {
             float fontSize = [_extensionsManager getAnnotFontSize:e_annotFreeText];
             fontSize = [Utility convertWidth:fontSize fromPageViewToPDF:_pdfViewCtrl pageIndex:pageIndex];
-            //            float fontSize = self.fontSize;
-            //            fontSize = [pageView docToPageViewLineWidth:fontSize];
             NSString *fontName = [_extensionsManager getAnnotFontName:e_annotFreeText];
             UIFont *font = [self getSysFont:fontName size:fontSize];
             if (!font) {
@@ -286,7 +266,6 @@
             if ((DEVICE_iPHONE && ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait)) || (DEVICE_iPHONE && ((STYLE_CELLWIDTH_IPHONE * STYLE_CELLHEIHGT_IPHONE) < (375 * 667)) && ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight))) {
                 UIView *doneView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 40)];
                 doneView.backgroundColor = [UIColor clearColor];
-                // doneView.backgroundColor = [UIColor colorWithRGBHex:0xfffbdb];
                 UIButton *doneBT = [UIButton buttonWithType:UIButtonTypeCustom];
                 [doneBT setBackgroundImage:[UIImage imageNamed:@"common_keyboard_done"] forState:UIControlStateNormal];
                 [doneBT addTarget:self action:@selector(dismissKeyboard) forControlEvents:UIControlEventTouchUpInside];
@@ -307,7 +286,6 @@
             _textView.layer.borderColor = [UIColor redColor].CGColor;
             _textView.layer.borderWidth = 1;
             _textView.backgroundColor = [UIColor clearColor];
-            //            _textView.textColor = [UIColor colorWithRGBHex:self.color alpha:self.opacity];
             _textView.textColor = ({
                 UInt32 color = [_extensionsManager getAnnotColor:e_annotFreeText];
                 float opacity = [_extensionsManager getAnnotOpacity:e_annotFreeText];
@@ -326,7 +304,6 @@
             _textView.scrollEnabled = NO;
             _textView.clipsToBounds = NO;
             [_pdfViewCtrl refresh:_textView.frame pageIndex:pageIndex needRender:NO];
-            //            [pageView invalidateForModify:_textView.frame];
 
             [pageView addSubview:_textView];
             self.isPanCreate = YES;
@@ -403,16 +380,6 @@
     return font;
 }
 
-//- (NSArray *)_getTextRects:(FSPDFTextSelect *)fstextPage start:(int)start end:(int)end {
-//    __block NSArray *ret = nil;
-//    Task *task = [[Task alloc] init];
-//    task.run = ^() {
-//        ret = [Utility getTextRects:fstextPage startCharIndex:start endCharIndex:end];
-//    };
-//    [_taskServer executeSync:task];
-//    return ret;
-//}
-
 #pragma mark IDvTouchEventListener
 - (void)onScrollViewWillBeginZooming:(UIScrollView *)scrollView {
     [self save];
@@ -433,10 +400,6 @@
         }
 
         textView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, size.height);
-        //        if (textView.frame.size.height + textView.frame.origin.y > CGRectGetHeight(pageView.frame)) {
-        //            textView.frame = CGRectMake(textView.frame.origin.x, CGRectGetHeight(pageView.frame) - textView.frame.size.height - 5, textView.frame.size.width, size.height);
-        //            [textView endEditing:YES];
-        //        }
         if (textView.frame.size.height >= (CGRectGetHeight(pageView.frame) - 20)) {
             [textView endEditing:YES];
         }
@@ -491,8 +454,6 @@
     CGRect keyboardFrame = [frame CGRectValue];
     CGRect textFrame = _textView.frame;
 
-    //    UIView *pageView = [_pdfViewCtrl getPageView:self.pageIndex];
-    //    if (pageView) {
     CGPoint oldPvPoint = [_pdfViewCtrl convertDisplayViewPtToPageViewPt:CGPointMake(0, 0) pageIndex:self.pageIndex];
     FSPointF *oldPdfPoint = [_pdfViewCtrl convertPageViewPtToPdfPt:oldPvPoint pageIndex:self.pageIndex];
 
@@ -518,23 +479,17 @@
             layoutMode == PDF_LAYOUT_MODE_TWO_LEFT ||
             layoutMode == PDF_LAYOUT_MODE_TWO_RIGHT ||
             layoutMode == PDF_LAYOUT_MODE_TWO_MIDDLE) {
-            //                float tmpPvOffset = [pageView docToPageViewLineWidth:pdfOffsetY];
             float tmpPvOffset = pvRect.size.height;
             CGRect tmpPvRect = CGRectMake(0, 0, 10, tmpPvOffset);
             CGRect tmpDvRect = [_pdfViewCtrl convertPageViewRectToDisplayViewRect:tmpPvRect pageIndex:self.pageIndex];
-            //                [[APPDELEGATE.app.read getDocViewer] setBottomOffset:tmpDvRect.size.height];
             [_pdfViewCtrl setBottomOffset:tmpDvRect.size.height];
         } else if (layoutMode == PDF_LAYOUT_MODE_CONTINUOUS) {
             if ([_pdfViewCtrl getCurrentPage] == [_pdfViewCtrl getPageCount] - 1) {
-                //                    float tmpPvOffset = [pageView docToPageViewLineWidth:pdfOffsetY];
                 float tmpPvOffset = pvRect.size.height;
                 CGRect tmpPvRect = CGRectMake(0, 0, 10, tmpPvOffset);
                 CGRect tmpDvRect = [_pdfViewCtrl convertPageViewRectToDisplayViewRect:tmpPvRect pageIndex:self.pageIndex];
-                //                    [[APPDELEGATE.app.read getDocViewer] setBottomOffset:tmpDvRect.size.height];
                 [_pdfViewCtrl setBottomOffset:tmpDvRect.size.height];
             } else {
-                //                    FS_POINTF jumpPdfPoint = {oldPdfPoint.x, oldPdfPoint.y - pdfOffsetY};
-                //                    [[APPDELEGATE.app.read getDocViewer] jumpToPage:pageIndex withDocPoint:jumpPdfPoint animated:YES];
                 FSPointF *jumpPdfPoint = [[FSPointF alloc] init];
                 [jumpPdfPoint set:oldPdfPoint.x y:oldPdfPoint.y - pdfOffsetY];
                 [_pdfViewCtrl gotoPage:self.pageIndex withDocPoint:jumpPdfPoint animated:YES];
@@ -555,14 +510,6 @@
         self.pageIndex == [_pdfViewCtrl getPageCount] - 1) {
         [_pdfViewCtrl setBottomOffset:0];
     }
-    //    id<IDvPageView> pageView = [[APPDELEGATE.app.read getDocViewer] getPageView:self.pageIndex];
-    //    if (pageView) {
-    //        _keyboardShown = NO;
-    //
-    //        if ([[APPDELEGATE.app.read getDocViewer] getDisplayMode] == PDF_DISPLAY_MODE_SINGLE || [[APPDELEGATE.app.read getDocViewer] getDisplayMode] == PDF_DISPLAY_MODE_TWO || pageIndex == [APPDELEGATE.app.read getDocMgr].currentDoc.pageCount - 1) {
-    //            [[APPDELEGATE.app.read getDocViewer] setBottomOffset:0];
-    //        }
-    //    }
 }
 
 - (void)onPageChangedFrom:(int)oldIndex to:(int)newIndex {
@@ -577,9 +524,7 @@
             CGRect textFrame = _textView.frame;
             NSString *content = [StringDrawUtil getWrappedStringInTextView:_textView];
 
-            //                FSCRT_RECTF rect = [_pdfViewCtrl convertPageViewRectToPdfRect:textFrame];
             FSRectF *rect = [_pdfViewCtrl convertPageViewRectToPdfRect:textFrame pageIndex:self.pageIndex];
-            //                FtAnnot *annot = [FtAnnot createWithDefaultOptionForPageIndex:pageIndex rect:rect contents:content];
             FSPDFPage *page = [_pdfViewCtrl.currentDoc getPage:self.pageIndex];
             if (!page) {
                 return;
@@ -609,9 +554,6 @@
                        appearance.textColor = color;
                        appearance;
                    })];
-            //                annot.color = self.color;
-            //                annot.fontName = self.fontName;
-            //                annot.fontSize = self.fontSize;
             int opacity = [_extensionsManager getAnnotOpacity:e_annotFreeText];
             annot.opacity = opacity / 100.0f;
             annot.contents = content;
@@ -634,25 +576,6 @@
                 id<IAnnotHandler> annotHandler = [_extensionsManager getAnnotHandlerByAnnot:annot];
                 [annotHandler addAnnot:annot addUndo:YES];
             }
-            //                annot.canReply = NO;
-            //                Task *task = [[Task alloc] init];
-            //                task.run = ^() {
-            //                    [self addAnnot:annot addUndo:YES others:@{ IsFromServer : @0 }];
-            //                    [_textView resignFirstResponder];
-            //                    [_textView removeFromSuperview];
-            //                    _textView = nil;
-            //                    self.rect = CGRectZero;
-            //                    self.isPanCreate = NO;
-            //
-            //                    [pageView invalidate:textFrame];
-            //                    double delayInSeconds = .3;
-            //                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-            //                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-            //                        [pageView invalidateForModify:textFrame];
-            //                    });
-            //                };
-            //                [_taskServer executeSync:task];
-            //            }
         }
 
         [_textView resignFirstResponder];
@@ -663,129 +586,8 @@
         self.pageIsAlreadyExist = NO;
 
         [[NSNotificationCenter defaultCenter] removeObserver:self];
-        //        if (self.isSelectoolCreate) {
-        //            self.isSelectoolCreate = NO;
-        //            [_extensionsManager setCurrentToolHandler:nil];
-        //        } else {
-        //            if (_onlyAddOnce || !_extensionsManager.continueAddAnnot) {
-        //                _onlyAddOnce = NO;
-        //                [_extensionsManager setCurrentToolHandler:nil];
-        //            }
-        //        }
     }
 }
-
-//- (void)addAnnot:(FtAnnot *)dmAnnot addUndo:(BOOL)addUndo others:(NSDictionary *)others {
-//    FtAddUndoItem *undoItem = [[FtAddUndoItem alloc] init];
-//    undoItem.pageIndex = dmAnnot.pageIndex;
-//    undoItem.NM = dmAnnot.NM;
-//    undoItem.annot = dmAnnot.annot;
-//    undoItem.author = dmAnnot.author;
-//    undoItem.color = dmAnnot.color;
-//    undoItem.opacity = dmAnnot.opacity;
-//    undoItem.fontName = dmAnnot.fontName;
-//    undoItem.fontSize = dmAnnot.fontSize;
-//    undoItem.rect = dmAnnot.rect;
-//    undoItem.contents = dmAnnot.contents;
-//    undoItem.createDate = dmAnnot.createDate;
-//    undoItem.modifiedDate = dmAnnot.modifiedDate;
-//
-//    DmPage *dmPage = [[APPDELEGATE.app.read getDocMgr].currentDoc getPage:dmAnnot.pageIndex];
-//    FSCRT_PAGE page = dmPage.page;
-//
-//    FSPDF_TEXTPAGE textPage = NULL;
-//
-//    if (!page) {
-//        return;
-//    }
-//
-//    FSPDF_Page_LoadAnnots(page);
-//
-//    FSCRT_ANNOT annot = NULL;
-//
-//    if (dmAnnot.archive) {
-//        FSCRT_ARCHIVE archive = NULL;
-//        FSCRT_Archive_Create(&archive);
-//        FSCRT_BSTR data;
-//        [DmUtil convertNSData2BSTR:dmAnnot.archive bstr:&data];
-//        FSCRT_Archive_LoadData(archive, &data);
-//        FSPDF_Archive_DeserializeAnnot(archive, page, &annot);
-//        FSCRT_Archive_Release(archive);
-//    } else {
-//        FSCRT_BSTR type;
-//        [DmUtil convertNSString2BSTR:[DmAnnot convertAnnotTypeToSDKType:dmAnnot.annotType] bstr:&type];
-//        FSCRT_RECTF rect = dmAnnot.rect;
-//        //patch rect to avoid sdk parm check
-//        if (rect.left != 0 && rect.left == rect.right) {
-//            rect.right++;
-//        }
-//        if (rect.bottom != 0 && rect.bottom == rect.top) {
-//            rect.top++;
-//        }
-//        FS_RESULT ret = FSPDF_Annot_Add(page, &rect, &type, NULL, INT32_MAX, &annot);
-//        if (ret == FSCRT_ERRCODE_SUCCESS && annot) {
-//            //Set name (uuid)
-//            FSCRT_BSTR uuid;
-//            [DmUtil convertNSString2BSTR:dmAnnot.NM bstr:&uuid];
-//            FSPDF_Annot_SetName(annot, &uuid);
-//            //Set author
-//            FSCRT_BSTR author;
-//            [DmUtil convertNSString2BSTR:dmAnnot.author bstr:&author];
-//            FSPDF_Annot_SetTitle(annot, &author);
-//            //Set add and modify time
-//            NSDate *now = [NSDate date];
-//            FSCRT_DATETIMEZONE time = [DmUtil convert2FSTime:now];
-//            if (dmAnnot.createDate) {
-//                FSCRT_DATETIMEZONE createTime = [DmUtil convert2FSTime:dmAnnot.createDate];
-//                FSPDF_Annot_SetCreationDateTime(annot, &createTime);
-//            } else {
-//                FSPDF_Annot_SetCreationDateTime(annot, &time);
-//                dmAnnot.createDate = now;
-//            }
-//            if (dmAnnot.modifiedDate) {
-//                FSCRT_DATETIMEZONE modTime = [DmUtil convert2FSTime:dmAnnot.modifiedDate];
-//                FSPDF_Annot_SetModifiedDateTime(annot, &modTime);
-//            } else {
-//                FSPDF_Annot_SetModifiedDateTime(annot, &time);
-//                dmAnnot.modifiedDate = now;
-//            }
-//
-//            FSPDF_Annot_SetOpacity(annot, dmAnnot.opacity / 100.0);
-//
-//            FSPDF_ANNOTBORDER border;
-//            border.borderWidth = 1;
-//            border.borderStyle = FSPDF_ANNOT_BORDERSTYLE_SOLID;
-//            ret = FSPDF_Annot_SetBorder(annot, &border);
-//
-//            FSCRT_BSTR contents;
-//            [DmUtil convertNSString2BSTR:dmAnnot.contents bstr:&contents];
-//            FSPDF_Annot_SetContents(annot, &contents);
-//            FSPDF_DEFAULTAPPEARANCE defAppearance;
-//            defAppearance.flags = FSPDF_DEFAULTAPPEARANCE_FONT | FSPDF_DEFAULTAPPEARANCE_TEXTCOLOR;
-//            defAppearance.fontSize = dmAnnot.fontSize;
-//            FSCRT_FONT font;
-//            FSCRT_Font_CreateStandard([DmUtil convertFontString2Id:dmAnnot.fontName], &font);
-//            defAppearance.font = font;
-//            defAppearance.textColor = dmAnnot.color;
-//            FSPDF_Annot_SetDefaultAppearance(annot, &defAppearance);
-//            FSCRT_Font_Release(font);
-//
-//            FS_DWORD flags = FSPDF_ANNOTFLAG_PRINT;
-//
-//            FSPDF_Annot_SetFlags(annot, flags);
-//
-//            FSPDF_Annot_ResetAppearance(annot);
-//
-//            dmAnnot.annot = annot;
-//            undoItem.annot = annot;
-//            [dmPage addAnnot:dmAnnot others:others];
-//            [[APPDELEGATE.app.read getDocMgr].currentDoc setModified:YES];
-//            if (addUndo) {
-//                [[APPDELEGATE.app.read getDocMgr].currentDoc addUndoItem:undoItem];
-//            }
-//        }
-//    }
-//}
 
 // useless ?
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event onView:(UIView *)view {

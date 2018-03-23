@@ -44,8 +44,8 @@
         _detailButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
         [self.contentView addSubview:_detailButton];
 
-        return self;
     }
+    return self;
 }
 
 - (void)handleClickDetailButton {

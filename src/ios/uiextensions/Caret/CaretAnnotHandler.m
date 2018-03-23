@@ -257,6 +257,7 @@
     if (_extensionsManager.currentAnnot) {
         [_extensionsManager setCurrentAnnot:nil];
     }
+    return YES;
 }
 
 - (CGRect)getPageViewRectForCaret:(FSMarkup *)caret pageIndex:(int)pageIndex {
