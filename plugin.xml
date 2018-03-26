@@ -33,8 +33,20 @@
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <activity android:name="com.foxit.cordova.plugin.ReaderActivity" />
+            <activity
+                android:name="com.foxit.cordova.plugin.ReaderActivity"
+                android:configChanges="keyboardHidden|orientation|locale|layoutDirection|screenSize"
+                android:launchMode="singleTask"
+                android:screenOrientation="fullSensor">
+                <intent-filter>
+                    <action android:name="android.intent.action.VIEW"></action>
+                    <action android:name="android.intent.action.MAIN"></action>
+                    <category android:name="android.intent.category.DEFAULT"></category>
+                    <data android:mimeType="application/pdf"></data>
+                </intent-filter>
+            </activity>
         </config-file>
+
         <config-file parent="/*" target="AndroidManifest.xml"/>
         <source-file src="src/android/com/foxit/cordova/plugin/FoxitPdf.java" target-dir="src/com/foxit/cordova/plugin"/>
         <source-file src="src/android/com/foxit/cordova/plugin/ReaderActivity.java" target-dir="src/com/foxit/cordova/plugin"/>
