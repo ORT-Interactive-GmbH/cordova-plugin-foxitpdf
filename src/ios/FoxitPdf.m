@@ -43,8 +43,13 @@ NSString *UNLOCK = @"ezJvj93HtBp39Js1IV0+hME/742j8lpbzmNKK0O5R57SklEhj6V071lEehr
         options = [NSDictionary dictionary];
     }
     
-    NSURL *filePathSaveTo = [[NSURL alloc] initWithString:[options objectForKey:@"filePathSaveTo"]];
-    self.filePathSaveTo = filePathSaveTo.path;
+    NSString *jsfilePathSaveTo = [options objectForKey:@"filePathSaveTo"];
+    if (jsfilePathSaveTo && jsfilePathSaveTo.length >0 ) {
+        NSURL *filePathSaveTo = [[NSURL alloc] initWithString:jsfilePathSaveTo];
+        self.filePathSaveTo = filePathSaveTo.path;
+    }else{
+        self.filePathSaveTo  = nil;
+    }
     
     // URL
     //    NSString *filePath = [command.arguments objectAtIndex:0];
