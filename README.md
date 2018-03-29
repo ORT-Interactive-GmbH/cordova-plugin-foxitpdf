@@ -112,18 +112,18 @@ for example
 
 ## window.FoxitPdf.preview
 
-> Adds a listener for an event
+> function of preview
 
-    window.FoxitPdf.addEventListener(option,successcallback,errorcallback);
+    window.FoxitPdf.preview(options,successcallback,errorcallback);
 
-- __option__: preview configuration options. we now support two option
+- __options__: preview configuration options. we now support two option
 
   - __filePath__: document path of what u want open
   - __filePathSaveTo__: document path that prevent overwrite of the preview file  _(if u set)_
 
 - __successcallback__: the function that executes when the preview success. The function is passed an object as a parameter.
 
-- __callback__: the function that executes when the preview faild. The function is passed an object as a parameter.
+- __errorcallback__: the function that executes when the preview faild. The function is passed an object as a parameter.
 
 
 ## Example (In iOS)
