@@ -300,6 +300,8 @@ typedef enum {
 
 + (NSArray<FSPointF *> *)getPolygonVertexes:(FSPolygon *)polygon;
 
+// get top viewcontroller for UI viewcontrollers stack
++ (UIViewController*)getTopMostViewController;
 @end
 
 NS_ASSUME_NONNULL_END

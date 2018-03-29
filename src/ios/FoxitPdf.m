@@ -131,16 +131,19 @@ NSString *UNLOCK = @"ezJvj93HtBp39Js1IV0+hME/742j8lpbzmNKK0O5R57SklEhj6V071lEehr
                           }
                       }];
     
-    UINavigationController *test = [[UINavigationController alloc] initWithRootViewController:self.pdfViewController];
-    test.navigationBarHidden = YES;
-    UIViewController *top = [UIApplication sharedApplication].keyWindow.rootViewController;
-    [top presentViewController:test animated:YES completion:nil];
+    __weak FoxitPdf* weakSelf = self;
+    self.pdfViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+    
+    // Run later to avoid the "took a long time" log message.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.viewController presentViewController:self.pdfViewController animated:YES completion:nil];
+    });
     
     [self wrapTopToolbar];
     self.topToolbarVerticalConstraints = @[];
     
     self.extensionsMgr.goBack = ^() {
-        [self.viewController dismissViewControllerAnimated:YES completion:nil];
+        [weakSelf.viewController dismissViewControllerAnimated:YES completion:nil];
     };
 }
 
@@ -229,4 +232,3 @@ NSString *UNLOCK = @"ezJvj93HtBp39Js1IV0+hME/742j8lpbzmNKK0O5R57SklEhj6V071lEehr
                                                views:NSDictionaryOfVariableBindings(topToolbar)]];
 }
 @end
-

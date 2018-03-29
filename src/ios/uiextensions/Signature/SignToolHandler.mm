@@ -578,13 +578,14 @@
         [controller dismissViewControllerAnimated:YES completion:nil];
     };
     UINavigationController *selectDestinationNavController = [[UINavigationController alloc] initWithRootViewController:selectDestination];
-    UIViewController *rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    [rootViewController presentViewController:selectDestinationNavController animated:YES completion:nil];
+    
+    [[Utility getTopMostViewController] presentViewController:selectDestinationNavController animated:YES completion:nil];
 }
 
 - (void)signList {
     typeof(self) __weak weakSelf = self;
-    UIViewController *rootViewController = _pdfViewCtrl.window.rootViewController; //[UIApplication sharedApplication].keyWindow.rootViewController;
+    UIViewController *rootViewController = [Utility getTopMostViewController];
+    
     if ([AnnotationSignature getSignatureList].count <= 0) {
         SignatureViewController *signatureCtr = [[SignatureViewController alloc] initWithUIExtensionsManager:_extensionsManager];
         signatureCtr.modalPresentationStyle = UIModalPresentationOverFullScreen;
@@ -659,7 +660,7 @@
             [_extensionsManager setCurrentToolHandler:nil];
         };
         UIViewController *rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
-        [rootViewController presentViewController:signatureCtr
+        [[Utility getTopMostViewController] presentViewController:signatureCtr
                                          animated:NO
                                        completion:^{
                                            weakSelf.currentCtr = signatureCtr;
@@ -1039,7 +1040,7 @@
     double delayInSeconds = 0.05;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-        [rootViewController presentViewController:signatureCtr
+        [[Utility getTopMostViewController] presentViewController:signatureCtr
                                          animated:NO
                                        completion:^{
                                            self.currentCtr = signatureCtr;

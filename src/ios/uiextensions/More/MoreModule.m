@@ -131,7 +131,7 @@
     fileInfoNavCtr.delegate = fileInfoCtr;
     fileInfoNavCtr.modalPresentationStyle = UIModalPresentationFormSheet;
     fileInfoNavCtr.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    [_extensionsManager.pdfViewCtrl.window.rootViewController presentViewController:fileInfoNavCtr animated:YES completion:nil];
+    [[Utility getTopMostViewController] presentViewController:fileInfoNavCtr animated:YES completion:nil];
 }
 
 - (void)reduceFileSize {

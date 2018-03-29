@@ -2206,4 +2206,11 @@ static NSDictionary<NSString *, NSNumber *> *g_stampIconNameToType = nil;
     return vertexes;
 }
 
++ (UIViewController*) getTopMostViewController {
+    UIViewController *presentingViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    while (presentingViewController.presentedViewController != nil) {
+        presentingViewController = presentingViewController.presentedViewController;
+    }
+    return presentingViewController;
+}
 @end
